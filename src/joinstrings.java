@@ -1,70 +1,40 @@
-
 public class joinstrings {
     public static void main(String[] args) {
         Kattio io = new Kattio(System.in, System.out);
         int N = io.getInt();
-        numberLink[] numberLinksArray = new numberLink[N + 1];
+        wordLinks[] wordLinkArray = new wordLinks[N+1];
         for (int i = 0; i < N; i++) {
-            numberLinksArray[i + 1] = new numberLink(io.getWord());
+            wordLinkArray[i+1] = new wordLinks(io.getWord());
         }
         int first = 1;
-        for (int i = 0; i < N - 1; i++) {
+        int second;
+        for (int i = 0; i < N-1; i++) {
             first = io.getInt();
-            numberLinksArray[first].setNextNumber(numberLinksArray[io.getInt()]);
+            second = io.getInt();
+            wordLinkArray[first].add(wordLinkArray[second]);
         }
-        System.out.println(numberLinksArray[first].getWordOmni());
+        wordLinks firstLink = wordLinkArray[first];
+        while (firstLink != null) {
+            io.print(firstLink.word);
+            firstLink = firstLink.nextWord;
+        }
+        io.close();
     }
 }
 
-class numberLink {
+class wordLinks {
     String word;
-    numberLink nextNumber = null;
-    tailFlag tailnumber = new tailFlag(this);
+    wordLinks tailWord;
+    wordLinks nextWord;
 
-    public numberLink(String word) {
+    public wordLinks(String word) {
         this.word = word;
+        this.tailWord = this;
+        this.nextWord = null;
     }
 
-    public numberLink getNextNumber() {
-        return nextNumber;
-    }
-
-    public void setNextNumber(numberLink nextNumber) {
-        numberLink temp = this.tailnumber.getTailNumber();
-        this.tailnumber.setTailNumber(nextNumber);
-        temp.forceNextNumber(nextNumber);
-    }
-
-    public void forceNextNumber(numberLink nextNumber) {
-        this.nextNumber = nextNumber;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public String getWordOmni() {
-        if (this.getNextNumber() == null) {
-            return this.getWord();
-        } else {
-            return this.getWord() + this.getNextNumber().getWordOmni();
-        }
+    public void add(wordLinks nextLink) {
+        this.tailWord.nextWord = nextLink;
+        this.tailWord = nextLink.tailWord;
     }
 }
-
-class tailFlag {
-    numberLink tailNumber = null;
-
-    public tailFlag(numberLink tailNumber) {
-        this.tailNumber = tailNumber;
-    }
-
-    public numberLink getTailNumber() {
-        return tailNumber;
-    }
-
-    public void setTailNumber(numberLink tailNumber) {
-        this.tailNumber = tailNumber;
-    }
-}
-
