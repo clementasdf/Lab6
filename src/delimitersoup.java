@@ -16,7 +16,7 @@ public class delimitersoup {
             String input = brakarray[i];
             if (Objects.equals(input, "(") || Objects.equals(input, "{") || Objects.equals(input, "[")) {
                 brakstak.push(input);
-            } else if (!input.equals(" ")){
+            } else if (!input.equals(" ")) {
                 if (brakstak.isEmpty()) {
                     result = (input + " " + i);
                     enteredFlag = true;
