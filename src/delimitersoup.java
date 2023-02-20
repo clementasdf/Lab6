@@ -9,47 +9,47 @@ public class delimitersoup {
         String rawinput = scanner.nextLine();
         ArrayDeque<String> brakstak = new ArrayDeque<>(N);
         String[] brakarray = rawinput.split("");
-        int i;
-        boolean enteredflag = false;
-        for (i = 0; i < N; i++) {
-            if (!enteredflag) {
-                String input = brakarray[i];
-                if (Objects.equals(input, "(") || Objects.equals(input, "{") || Objects.equals(input, "[")) {
-                    brakstak.push(input);
+        Boolean enteredFlag = false;
+        String result = null;
+        int i = 0;
+        while (!enteredFlag && i < N) {
+            String input = brakarray[i];
+            if (Objects.equals(input, "(") || Objects.equals(input, "{") || Objects.equals(input, "[")) {
+                brakstak.push(input);
+            } else if (!input.equals(" ")){
+                if (brakstak.isEmpty()) {
+                    result = (input + " " + i);
+                    enteredFlag = true;
                 } else {
-                    try {
-                        switch (input) {
-                            case "}":
-                                if (!brakstak.pop().equals("{")) {
-                                    System.out.println(brakarray[i] + " " + i);
-                                    enteredflag = true;
-                                }
-                                break;
-                            case "]":
-                                if (!brakstak.pop().equals("[")) {
-                                    System.out.println(brakarray[i] + " " + i);
-                                    enteredflag = true;
-                                }
-                                break;
-                            case ")":
-                                if (!brakstak.pop().equals("(")) {
-                                    System.out.println(brakarray[i] + " " + i);
-                                    enteredflag = true;
-                                }
-                                break;
-                        }
-                    } catch (Exception E) {
-                        System.out.println(brakarray[i] + " " + i);
-                        enteredflag = true;
-                        break;
+                    switch (input) {
+                        case ")":
+                            if (!brakstak.pop().equals("(")) {
+                                result = (input + " " + i);
+                                enteredFlag = true;
+                            }
+                            break;
+                        case "}":
+                            if (!brakstak.pop().equals("{")) {
+                                result = (input + " " + i);
+                                enteredFlag = true;
+                            }
+                            break;
+                        case "]":
+                            if (!brakstak.pop().equals("[")) {
+                                result = (input + " " + i);
+                                enteredFlag = true;
+                            }
+                            break;
                     }
                 }
+
             }
+            i++;
         }
-        if (brakstak.isEmpty() && !enteredflag) {
+        if (!enteredFlag) {
             System.out.println("ok so far");
-        } else if (!brakstak.isEmpty()) {
-            System.out.println(brakstak.pop() + " " + i);
+        } else {
+            System.out.println(result);
         }
 
     }
