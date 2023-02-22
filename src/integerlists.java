@@ -3,11 +3,12 @@ public class integerlists {
         Kattio io = new Kattio(System.in, System.out);
         int N = io.getInt();
         for (int i = 0; i < N; i++) {
-            interpretor(io.getWord(),io.getInt(),io.getWord());
+            interpretor(io.getWord(),io.getInt(),io.getWord(),io);
         }
+        io.close();
     }
 
-    static void interpretor(String commands, int numCount,String rawList) {
+    static void interpretor(String commands, int numCount,String rawList, Kattio io) {
         String[] list = rawList.substring(1,rawList.length()-1).split(",");
         String[] cmdArray = commands.split("");
         int start = 0;
@@ -23,19 +24,19 @@ public class integerlists {
             }
         }
         if (start > list.length || end < 0 || numCount == 0) {
-            System.out.println("error");
+            io.println("error");
         } else {
-            System.out.print("[");
+            io.print("[");
             if (reverseCount%2 == 0) {
-                for (int i = start; i < end - 1; i++) {
-                    System.out.print(list[i] + ",");
+                for (int i = start; i < end; i++) {
+                    io.print(list[i] + ",");
                 }
-                System.out.println(list[end - 1] + "]");
+                io.println("]");
             } else {
                 for (int i = end-1; i > start; i--) {
-                    System.out.print(list[i] + ",");
+                    io.print(list[i] + ",");
                 }
-                System.out.println(list[start] + "]");
+                io.println(list[start] + "]");
             }
 
         }
